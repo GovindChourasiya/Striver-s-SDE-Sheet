@@ -1,0 +1,33 @@
+
+//User function template for JAVA
+
+/*Complete the Given Function
+
+Node is as follows:
+class Node{
+    int data;
+    Node left,right;
+    Node(int d){
+    	data=d;
+    	left=null;
+    	right=null;
+    }
+}*/
+
+class Solution{
+    public void toSumTree(Node root){
+         findSum(root);
+    }
+    
+    public int findSum(Node root)
+    {
+        if(root == null){
+            return 0;
+        }
+        int val = root.data;
+        
+        root.data = findSum(root.left) + findSum(root.right);
+        
+        return val+root.data;
+    }
+}
