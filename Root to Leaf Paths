@@ -1,0 +1,46 @@
+/*
+
+Definition for Binary Tree Node
+class Node
+{
+    int data;
+    Node left;
+    Node right;
+
+    Node(int data)
+    {
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}
+*/
+
+class Solution {
+    public static ArrayList<ArrayList<Integer>> list1 = new ArrayList<>();
+    public static ArrayList<ArrayList<Integer>> Paths(Node root) {
+        // code here
+        list1.clear();
+        ArrayList<Integer> list2 = new ArrayList<>();
+        checkLeaf(root,list2);
+        
+        return list1;
+    
+        
+    }
+    public static void checkLeaf(Node root,ArrayList<Integer> list2){
+        if(root == null){
+            return ;
+        }
+        
+        list2.add(root.data);
+        
+        if(root.right == null &&  root.left == null){
+            list1.add(new ArrayList<>(list2));
+        }
+        
+        checkLeaf(root.left,new ArrayList<>(list2));
+        checkLeaf(root.right,new ArrayList<>(list2));
+    }
+        
+}
