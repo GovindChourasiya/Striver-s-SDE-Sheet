@@ -1,0 +1,27 @@
+class Solution {
+    static Long[] lcmAndGcd(Long A , Long B) {
+        // code here
+        Long lcm = 1L;
+        Long gcd = 1L;
+        
+        if(A == 0){
+            return new Long[]{A,B};
+        }
+        
+        Long divisor = Math.min(A,B);
+        Long dividend = Math.max(A,B);
+        
+        while(dividend%divisor > 0){
+            Long temp = dividend;
+            dividend = divisor;
+            divisor = temp%divisor;
+        }
+        
+        gcd = divisor;
+        
+        lcm = (A*B)/gcd;
+        
+        
+        return new Long[]{lcm,gcd};
+    }
+};
