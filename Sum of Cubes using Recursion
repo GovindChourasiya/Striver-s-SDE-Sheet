@@ -1,0 +1,13 @@
+class Solution {
+    long sum = 0;
+    long sumOfSeries(long n) {
+        // code here
+        if(n == 0){
+            return 0;
+        }
+        sumOfSeries(n-1);
+        sum += (n*n*n);
+        
+        return sum;
+    }
+}
