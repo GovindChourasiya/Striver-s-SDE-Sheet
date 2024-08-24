@@ -1,0 +1,28 @@
+class Solution {
+    // Function to flatten a linked list
+    Node flatten(Node root) {
+
+        List<Integer> list = new ArrayList<>();
+        Node curr = root;  // Change ListNode to Node
+        
+        while (curr != null) {
+            Node bottomCurr = curr;
+            while (bottomCurr != null) {
+                list.add(bottomCurr.data);
+                bottomCurr = bottomCurr.bottom;  
+            }
+            curr = curr.next; 
+        }
+        
+        Collections.sort(list);
+        
+        Node head = new Node(0);  
+        Node temp = head;
+        for (int num : list) {
+            temp.bottom = new Node(num);
+            temp = temp.bottom;
+        }
+        
+        return head.bottom;  
+    }
+}
