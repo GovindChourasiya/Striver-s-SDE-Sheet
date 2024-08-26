@@ -1,0 +1,19 @@
+class Solution {
+    public void func(int idx, int sum, ArrayList<Integer> arr, int n, ArrayList<Integer> list){
+        if(idx == n){
+            list.add(sum);
+            return;
+        }
+        
+        func(idx+1,sum+arr.get(idx),arr,n,list);
+        func(idx+1,sum,arr,n,list);
+        
+    }
+    ArrayList<Integer> subsetSums(ArrayList<Integer> arr, int n) {
+        // code here
+        ArrayList<Integer> list = new ArrayList<>();
+        func(0,0,arr,n,list);
+        
+        return list;
+    }
+}
