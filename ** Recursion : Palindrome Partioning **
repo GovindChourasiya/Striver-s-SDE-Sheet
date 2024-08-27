@@ -1,0 +1,37 @@
+class Solution {
+    public boolean isPalindrome(String str, int start, int end){
+        while(start < end){
+            if(str.charAt(start) != str.charAt(end)){
+                return false;
+            }
+            start++;
+            end--;
+        }
+
+        return true;
+    }
+    public void checkPalindrome(String s, int start, List<List<String>> list, List<String> temp ){
+        if(start == s.length()){
+            list.add(new ArrayList<>(temp));
+            return;
+        }
+
+        for(int i=start;i<s.length();i++){
+            if(isPalindrome(s,start,i)){
+                temp.add(s.substring(start,i+1));
+                checkPalindrome(s,i+1,list,temp);
+                temp.remove(temp.size()-1);
+            }
+        }
+    }
+
+    public List<List<String>> partition(String s) {
+        List<List<String>> list = new ArrayList<>();
+        List<String> temp = new ArrayList<>();
+
+        checkPalindrome(s,0,list,temp);
+
+        return list;
+
+    }
+}
