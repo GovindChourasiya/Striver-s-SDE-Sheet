@@ -1,0 +1,21 @@
+public class Solution {
+
+	public static void sortStack(Stack<Integer> stack) {
+		if (stack.isEmpty()) {
+			return;
+		}
+		int top = stack.pop();
+		sortStack(stack);
+		insertInSortedOrder(stack, top);
+	}
+	
+	public static void insertInSortedOrder(Stack<Integer> stack, int top) {
+		if (stack.isEmpty() || stack.peek() <= top) {
+			stack.push(top);
+			return;
+		}
+		int val = stack.pop();
+		insertInSortedOrder(stack, top);
+		stack.push(val);
+	}
+}
