@@ -1,0 +1,39 @@
+class Solution {
+    int memo[][] = new int[1001][1001];
+
+    public boolean checkPalindrome(String s, int left, int right){
+        if(left >= right){
+            return true;
+        }
+        if(memo[left][right] != -1){
+            return memo[left][right] == 1;
+        }
+        if(s.charAt(left) == s.charAt(right)){
+            memo[left][right] = checkPalindrome(s,left+1,right-1) ? 1 : 0;
+            return memo[left][right] == 1;
+        }
+
+        return false;
+    }
+    public String longestPalindrome(String s) {
+        int n = s.length();
+        int maxLen = Integer.MIN_VALUE;
+        int start = 0;
+
+        for(int[] arr : memo){
+            Arrays.fill(arr,-1);
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(checkPalindrome(s,i,j) == true){
+                    if(j-i+1 > maxLen){
+                        maxLen = j-i+1;
+                        start = i;
+                    }
+                }
+            }
+        }
+
+        return s.substring(start,start+maxLen);
+    }
+}
