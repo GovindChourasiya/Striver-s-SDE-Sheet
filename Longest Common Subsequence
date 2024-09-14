@@ -1,0 +1,39 @@
+class Solution {
+    String text1, text2;
+    int[][] memo;
+
+    public int findSubsequence(int idx1, int idx2) {
+        if (idx1 < 0 || idx2 < 0) {
+            return 0;
+        }
+
+        if (memo[idx1][idx2] != -1) {
+            return memo[idx1][idx2];
+        }
+
+        if (text1.charAt(idx1) == text2.charAt(idx2)) {
+            memo[idx1][idx2] = 1 + findSubsequence(idx1 - 1, idx2 - 1);
+        } else {
+            memo[idx1][idx2] = Math.max(findSubsequence(idx1 - 1, idx2), findSubsequence(idx1, idx2 - 1));
+        }
+
+        return memo[idx1][idx2];
+    }
+
+    public int longestCommonSubsequence(String text1, String text2) {
+        this.text1 = text1;
+        this.text2 = text2;
+
+        int len1 = text1.length();
+        int len2 = text2.length();
+        memo = new int[len1][len2];
+
+        for (int i = 0; i < len1; i++) {
+            for (int j = 0; j < len2; j++) {
+                memo[i][j] = -1;
+            }
+        }
+
+        return findSubsequence(len1 - 1, len2 - 1);
+    }
+}
