@@ -1,0 +1,63 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Pair{
+    TreeNode root;
+    int idx;
+    int level;
+    Pair(TreeNode root, int idx, int level){
+        this.root = root;
+        this.idx = idx;
+        this.level = level;
+    }
+}
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>> map = new TreeMap<>();
+        Queue<Pair> que = new LinkedList<>();
+
+        que.offer(new Pair(root,0,0));
+
+        while(!que.isEmpty()){
+            Pair obj = que.poll();
+            TreeNode temp = obj.root;
+            int idx = obj.idx;
+            int level = obj.level;
+
+            map.putIfAbsent(idx,new TreeMap<>());
+            map.get(idx).putIfAbsent(level, new PriorityQueue<>());
+            map.get(idx).get(level).offer(temp.val);
+
+            if(temp.left != null){
+                que.offer(new Pair(temp.left,idx-1,level+1));
+            }
+            if(temp.right != null){
+                que.offer(new Pair(temp.right,idx+1,level+1));
+            }
+        }
+        for(TreeMap<Integer,PriorityQueue<Integer>> levelMap : map.values()){
+            List<Integer> list = new ArrayList<>();
+            for(PriorityQueue<Integer> nodes : levelMap.values()){
+                while(!nodes.isEmpty()){
+                    list.add(nodes.poll());
+                }
+            }
+            res.add(list);
+        }
+
+        return res;
+    }
+}
