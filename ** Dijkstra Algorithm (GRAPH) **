@@ -1,0 +1,48 @@
+class Pair {
+    int distance;
+    int node;
+
+    Pair(int distance, int node) {
+        this.distance = distance;
+        this.node = node;
+    }
+}
+
+class Solution {
+    // Function to find the shortest distance of all the vertices
+    // from the source vertex src.
+    ArrayList<Integer> dijkstra(ArrayList<ArrayList<iPair>> adj, int src) {
+        int v = adj.size();
+        PriorityQueue<Pair> pq = new PriorityQueue<Pair>((a, b) -> a.distance - b.distance);
+        
+        int[] dist = new int[v];
+        
+        // assigning infinity to all the nodes
+        for (int i = 0; i < v; i++) dist[i] = (int)(1e9);
+        
+        dist[src] = 0;
+        pq.add(new Pair(0, src));
+        
+        while (!pq.isEmpty()) {
+            int dis = pq.peek().distance;
+            int node = pq.peek().node;
+            pq.remove();
+            
+            // Loop through all adjacent nodes (iPair objects)
+            for (int i = 0; i < adj.get(node).size(); i++) {
+                int adjNode = adj.get(node).get(i).first;
+                int edgeWeight = adj.get(node).get(i).second;
+                
+                if (dis + edgeWeight < dist[adjNode]) {
+                    dist[adjNode] = dis + edgeWeight;
+                    pq.add(new Pair(dist[adjNode], adjNode));
+                }
+            }
+        }
+        
+        // Convert array to ArrayList<Integer> to match the return type
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i = 0; i < v; i++) result.add(dist[i]);
+        
+        return result;
+    }
