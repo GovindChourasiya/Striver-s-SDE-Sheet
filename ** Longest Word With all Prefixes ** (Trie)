@@ -1,0 +1,88 @@
+import java.util.* ;
+import java.io.*; 
+
+class Node{
+  Node links[];
+  boolean flag;
+  Node(){
+    links = new Node[26];
+    flag = false;
+    for(int i = 0; i < 26; i++){
+      links[i] = null;
+    }
+  }
+
+  boolean containsKey(char ch){
+    return links[ch - 'a'] != null;
+  }
+  
+  void put(char ch, Node node){
+    links[ch - 'a'] = node;
+  }
+
+  Node get(char ch){
+    return links[ch - 'a'];
+  }
+
+  void setEnd(){
+    flag = true;
+  }
+
+  boolean isEnd(){
+    return flag;
+  }
+}
+
+class Trie{
+  private static Node root;
+  Trie(){
+    root = new Node();
+  }
+
+  public void insert(String word){
+    Node node = root;
+    for(int i = 0; i < word.length(); i++){
+      char c = word.charAt(i);
+      if(!node.containsKey(c)){
+        node.put(c, new Node());
+      }
+      node = node.get(c);
+    }
+    node.setEnd();
+  }
+  
+  boolean checkIfPrefixExists(String word){
+    Node node = root;
+    for(int i = 0; i < word.length(); i++){
+      char c = word.charAt(i);
+      if(node.containsKey(c)){
+        node = node.get(c);
+        if(!node.isEnd()) return false;
+      } else{
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+class Solution {
+  public static String completeString(int n, String[] a) {
+    Trie obj = new Trie();
+    String longest = "";
+    for(int i = 0; i < n; i++){
+      obj.insert(a[i]);
+    }
+    for(int i = 0; i < n; i++){
+      if(obj.checkIfPrefixExists(a[i])){
+        if(a[i].length() > longest.length()){
+          longest = a[i];
+        } else if(a[i].length() == longest.length() && a[i].compareTo(longest) < 0){
+          longest = a[i];
+        }
+      }
+    }
+    if(longest.equals("")) return "None";
+    return longest;
+  }
+}
