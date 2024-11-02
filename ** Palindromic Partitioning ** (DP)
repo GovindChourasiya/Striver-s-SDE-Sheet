@@ -1,0 +1,37 @@
+class Solution{
+    static boolean isPalindrome(int i, int j, String str){
+        while(i < j){
+            if(str.charAt(i) != str.charAt(j)){
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+    static int findPartitions(int idx, int n, String str, int[] dp){
+        if(idx == n){
+            return 0;
+        }
+        if(dp[idx] != -1){
+            return dp[idx];
+        }
+        int minCost = Integer.MAX_VALUE;
+        
+        for(int i=idx;i<n;i++){
+            if(isPalindrome(idx,i,str)){
+                int cost = 1 + findPartitions(i+1,n,str,dp);
+                minCost = Math.min(minCost,cost);
+            }
+        }
+        return dp[idx] = minCost;
+    }
+    static int palindromicPartition(String str)
+    {
+        // code here
+        int n = str.length();
+        int[] dp = new int[n];
+        Arrays.fill(dp,-1);
+        return findPartitions(0,n,str,dp)-1; // since the code is doing an extra partition at the end 
+    }
+}
